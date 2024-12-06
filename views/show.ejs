@@ -1,0 +1,113 @@
+<%= layout('layout/boilerplate') %>
+<link rel="stylesheet" href="/css/star.css" />
+<div class="row mb-4">
+  <div class="col-6">
+    <div class="card mb-3">
+      <div id="campImageControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <% camp.image.forEach((im,id)=>{%>
+            <div class="carousel-item <%= id===0?"active":"" %>">
+              <img src="<%= im.showPage %>" class="d-block w-100" alt="...">
+            </div>
+          <%}) %>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#campImageControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#campImageControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <% if(camp.image.length===0){ %>
+        <img class="img-fluid img-thumbnail" src="https://res.cloudinary.com/dhtxywza0/image/upload/w_200,h_150/v1684793983/YelpCamp/bqlyxwcqzivezngcbwic.jpg" alt="">
+        <% } %>
+      <div class="card-body">
+        <h5 class="card-title"><%= camp.title %></h5>
+        <p class="card-text"><%= camp.description %></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-muted"><%= camp.location %></li>
+        <li class="list-group-item">
+          Seller : <%= camp.author.username %>
+        </li>
+        <li class="list-group-item"><b>$<%= camp.price %> </b></li>
+      </ul>
+      <% if(currentUser &&camp.author.equals(currentUser._id)) {%>
+      <div class="card-body">
+        <a href="/items/<%= camp._id %>/edit" class="btn btn-info">EDIT</a>
+        <form
+          class="d-inline"
+          action="/items/<%= camp._id %>?_method=DELETE"
+          method="post"
+        >
+          <button class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+      <% } %>
+      <div class="card-footer text-muted">2 days ago</div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div id="map" style="height: 400px"></div>
+    <% if(currentUser && (!(camp.author.equals(currentUser._id)))) {%>
+    <div class="mb-3">
+      <form
+        action="/items/<%= camp._id %>/reviews"
+        method="post"
+        class="needs-validation"
+        novalidate
+      >
+        <br><br>
+        <div class="mb-3">
+          <h2>Are You Interested To Buy? </h2>
+          <label for="">Cost to Offer:</label>
+          <br>
+          <input class="form-control" type="number" name="review[cost]" id="cost" required>
+          <br>
+          <label class="form-label" for="body">Contacts</label>
+          <textarea
+            class="form-control"
+            name="review[body]"
+            id="body"
+            cols="30"
+            rows="5"
+            required
+          ></textarea>
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <button class="btn btn-success">Submit</button>
+      </form>
+    </div>
+    <% } %>
+    <br><br>
+    <div class="mb-3">
+      <% for(let c of camp.reviews) {%>
+        <% if(currentUser&& (c.author.equals(currentUser._id)||camp.author.equals(currentUser._id))){ %>
+        <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">
+            <b>CostOffered </b>: <%= c.cost %> 
+          </h5>
+          <h6 class="card-subtitle text-muted">User: <%= c.author.username %></h6>
+          <p class="card-text">Contacts: <%= c.body %></p>
+          <% if(currentUser&&c.author.equals(currentUser._id)) {%>
+          <form
+            action="/items/<%= camp._id %>/reviews/<%= c._id %>?_method=DELETE"
+            method="post"
+          >
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+          <% } %>
+        </div>
+      </div>
+      <% } %>
+      <% } %>
+    </div>
+  </div>
+</div>
+<script>
+  const camp = <%- JSON.stringify(camp) %>;
+</script>
+<script src="/javascript/showPageMap.js"></script>

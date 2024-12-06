@@ -1,0 +1,69 @@
+    <!-- <title>New campground</title> -->
+<%= layout('./layout/boilerplate') %> 
+
+    <div class="row">
+        <h1 class="text-center">New Item</h1>
+        <div class="col-6 offset-3 mb-4">
+            <form action="/items" method="post" class="mb-3 needs-validation" novalidate enctype="multipart/form-data">
+                <div class="mb-3">
+                <label for="title" class="form-label">Item Name</label>
+                <input type="text"  name="title" id="title" class="form-control" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please provide a valid data.
+                  </div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Locations</label>
+                <input type="text"  name="location" id="title" class="form-control" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please provide a valid data.
+                  </div>
+            </div>
+            <!-- <div class="mb-3">
+                <label for="image" class="form-label">image</label>
+                <input type="text"  name="image" id="image" class="form-control" required>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please provide a valid data.
+                  </div>
+            </div> -->
+            <div class="mb-3">
+                <input type="file" name="image" id="" multiple>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">price</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">$</span>
+                    <input type="text" class="form-control" id="price" name="price" placeholder="0.00" aria-label="Username" aria-describedby="basic-addon1" required>
+                  </div>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please provide a valid data.
+                  </div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea type="text"  name="description" id="description" class="form-control" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please provide a valid data.
+                  </div>
+            </div>
+                <button class="btn btn-success">Add Item</button>
+            </form>
+            <a href="/items">BACK</a>
+        </div>
+    </div>
+    
